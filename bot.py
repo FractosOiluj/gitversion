@@ -1,12 +1,18 @@
+# coleta todas as opções de arrendamnto da primira pagina do site queroarrendar
+
 import requests
 from bs4 import BeautifulSoup
 import time
+import pywhatkit
 
 from urllib.parse import urljoin
 
+# define a max value of rent for th program to send me msg'
+max_price = int(input("How much you can afford to pay?\n"))
+numero_whats = input('digite no formato: +000.00.0000000. >')
+
+
 def main():
-    # define a max value of rent for th program to send me msg'
-    max_price = int(input("How much you can afford to pay?\n"))
     find_apts(max_price)
 
 # define function that will be resposible for connecting with website via requests's get method,
@@ -18,6 +24,7 @@ def find_apts(n):
     text_html = requests.get('https://www.queroarrendar.com/imoveis/apartamentos/arrendamento/porto/').text
     
     # create a beautiful instance. 'html_text' is the object we want to scrap
+    
     # lxml is th parse 'mode'
     soup = BeautifulSoup(text_html, 'lxml')
 
@@ -39,27 +46,26 @@ def find_apts(n):
 
         # format number so we can compare to user input
         final_price = int(price[:-2].replace('\xa0', ''))
+        
+        # transform final_price into string so it can be writen on posts.txt
+        f_price = str(final_price)
 
-        with open('posts/{index}.txt', 'w') as f:
-            f.write(f"{index}. {title}")
-            f.write(price)
-            f.write(location)
-            f.write(abs_url)
+        with open(f'posts/posts.txt', 'a') as f:
+            f.write(f'{index}. {title} \n')
+            f.write(f'{f_price} \n')
+            f.write(f'{location} \n')
+            f.write(f'{abs_url} \n')
+            f.write('\n')
+
+
 
         # add whatsapp msg here
-        if final_price <= n:
-
-            print(title)
-            print(price)
-            print(location)
-            print(abs_url)
-            print(" ")
-    print(f'apt option saved: {index}')
-
+    print(f'apt option saved: {index}') 
+    
 if __name__ == '__main__':
     while True:
-        main()
-        time_wait = 1
-        print(f"waiting {time_wait} minutes...")
+        find_apts(max_price)
+        time_wait = 2
+        print(f"wait few seconds")
         # define a delay so the program will wait for as long as we define (time.sleep) accept time in seconds
-        time.sleep(time_wait * 60) #600sec = 10min
+        time.sleep(time_wait * 6) #600sec = 10min

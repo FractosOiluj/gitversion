@@ -22,6 +22,7 @@ def find_apts(n):
     # create a beautiful instance. 'html_text' is the object we want to scrap
     
     # lxml is the parse 'mode'
+    
     soup = BeautifulSoup(text_html, 'lxml')
 
     # now we select via 'find()' method in html the element we want to

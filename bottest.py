@@ -1,5 +1,5 @@
 # coleta titulo, valor e link de opções de arrendamento de todas as paginas
-# 
+# do site 'queroarrendar
 
 import requests
 from bs4 import BeautifulSoup
