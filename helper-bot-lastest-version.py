@@ -28,7 +28,6 @@ def quero_arrendar(max_price, numero_whats):
         location = apt.find('p', class_='location').text
         title = apt.find('h4', class_='title').text
         link = apt['href']
-        
 
         counter +=1
 
@@ -46,6 +45,8 @@ def quero_arrendar(max_price, numero_whats):
     # write all the apartment options to a file
     with open('posts/posts-queroarrendar.txt', 'a') as f:
         f.writelines(apt_options)
+
+    print("quero_arrendar 1ª parte [x]")
 
 
     ## .....................
@@ -94,12 +95,13 @@ def quero_arrendar(max_price, numero_whats):
                     f.write(f'{abs_url} \n')
                     f.write('\n')
 
-    print('done')
+    print("quero_arrendar 2ª parte [x]")
 
     # send the WhatsApp message with all the apartment options
     #if apt_options:
      #   message = '\n'.join(apt_options)
       #  pywhatkit.sendwhatmsg_instantly(numero_whats, message, 10, True, 3)
+
 
 def imovirtual(max_price):
     text_html = requests.get('https://www.imovirtual.com/arrendar/apartamento/porto/?search%5Bregion_id%5D=13').text
@@ -133,6 +135,9 @@ def imovirtual(max_price):
 
     with open('posts/posts-imovirtual.txt', 'a') as f:
         f.writelines(apt_options)
+
+
+    print("imovirtual 1ª parte [x]")
     # send the WhatsApp message with all the apartment options
     #if apt_options:
      #   message = '\n'.join(apt_options)
@@ -167,7 +172,7 @@ def imovirtual(max_price):
             for i in price:
                 if i in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
                     f_price += i
-
+        
             f_price = int(f_price)
 
             apt_option = f'{title}\n{f_price}\n{location}\n{link}\n'
@@ -177,4 +182,46 @@ def imovirtual(max_price):
         with open('posts/posts-imovirtual-2.txt', 'a') as f:
             f.writelines(apt_options)
 
+    print("imovirtual 2ª parte [x]")
 
+
+def uniplaces(max_price):
+    html_text = requests.get('https://www.uniplaces.com/pt/accommodation/porto').text # ok
+
+    soup = BeautifulSoup(html_text, 'lxml') # ok
+
+    apts = soup.find_all('a', class_ ="sc-q9wvaw-0 goZTpP") # ok
+
+    apt_options = []
+
+    for index, apt in enumerate(apts):
+        price = apt.find('span', class_ = 'rent__value').text                  # ok                                        # ok
+        title = apt.find('h3', class_ = 'property__title').text
+        location = ""
+        link = apt['href']
+
+        f_price = ""
+        for i in price:
+            if i in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+                f_price += i
+    
+        f_price = int(f_price)
+
+        apt_option = f'{title}\n{f_price}\n{location}\n{link}\n'
+        print(apt_option)
+        if f_price <= max_price:
+            apt_options.append(apt_option)
+
+    with open('posts/posts-uniplaces.txt', 'a') as f:
+        f.writelines(apt_options)
+
+
+    print('uniplaces 1ª parte [x]')
+    
+
+    ####
+    ## FIM DA PRIMEIRA PARTE
+    ####
+    
+
+    

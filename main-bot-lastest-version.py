@@ -2,15 +2,20 @@
 # it import two functions from helper.py
 # still much to be done. 
 
-from helper import quero_arrendar, imovirtual
+from helper import quero_arrendar, imovirtual, uniplaces
 import time
 
 def main():
     max_price = int(input("How much you can afford to pay?\n"))
     numero_whats = input('digite no formato: +000.00.0000000. >')
-    quero_arrendar(max_price, numero_whats)
-    imovirtual(max_price)
-    
+    cnt = 0
+    try:
+        quero_arrendar(max_price, numero_whats)
+        imovirtual(max_price)
+        uniplaces(max_price)
+    except ValueError:
+        print(f"value error nº:{cnt}")
+        cnt+=1
 
 
 if __name__ == '__main__':
